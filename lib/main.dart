@@ -4,8 +4,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 void main() async {
   await SentryFlutter.init(
     (options) {
-      options.dsn =
-          'https://d6cecce5176cad63c1be5b2e6e061cff@o26640.ingest.us.sentry.io/4507092437434368';
+      options.dsn = '<YOUR SENTRY DSN HERE>';
       options.enableAutoSessionTracking = true;
       options.environment = 'LOCAL';
       options.debug = true;
