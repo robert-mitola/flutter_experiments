@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
@@ -6,7 +7,7 @@ void main() async {
     (options) {
       options.dsn = '<YOUR SENTRY DSN HERE>';
       options.enableAutoSessionTracking = true;
-      options.environment = 'LOCAL';
+      options.environment = 'RN_PROD';
       options.debug = true;
       options.diagnosticLevel = SentryLevel.debug;
     },
@@ -52,8 +53,15 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
-    Sentry.captureMessage('Testing sentry message event');
+  Future<void> _incrementCounter() async {
+    await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
+    Sentry.captureMessage('Test Sentry Message');
+    try {
+      int? nullInt;
+      int errorOperation = 1 + nullInt!;
+    } catch (err) {
+      Sentry.captureException(err);
+    }
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
